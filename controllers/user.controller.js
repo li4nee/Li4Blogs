@@ -21,7 +21,7 @@ const loginUser = async (req, res) => {
     const token = await User.checkLoginAndGenerateToken(email, password);
     res.cookie("token", token).redirect("/");
   } catch (error) {
-    console.error('Login error:', error.message);
+    res.render("login",{error:"Email or password incorrect !!"})
   }
 };
 
