@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%- include("./partials/head.ejs") %>
+    <title>Li4Blogs</title>
+    <style>
+        .card {
+            height: 400px;
+            margin-bottom: 20px;
+        }
+
+        .card img {
+            height: 200px;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <%- include("./partials/navbar.ejs") %>
+    <div class="container mt-3">
+        <div class="row">
+            <% blogs.forEach(blog => { %>
+                <div class="col-md-4 mb-3">
+                    <div class="card" style="width: 100%;">
+                        <a href="/blog/<%= blog._id %>">
+                            <img src="<%= blog.coverImageUrl %>" class="img-thumbnail" alt="Blog Cover Image">
+                        </a>
+                        <div class="card-body border border-secondary-subtle rounded-bottom">
+                            <h5 class="card-title text-truncate" title="<%= blog.title %>">
+                                <%= blog.title %>
+                            </h5>
+                            <p class="card-text text-truncate" title="<%= blog.body %>">
+                                <%= blog.body %>
+                            </p>
+                            <p class="card-text"> <h5>Author: <%= blog.creator.username %></h5> Created: <%= blog.createdAt.toLocaleDateString() %></p>
+                            
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+    </div>
+    
+    <%- include("./partials/scripts.ejs") %>
+    
+    
+</body>
+</html>

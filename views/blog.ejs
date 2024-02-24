@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%- include("./partials/head.ejs") %>
+        <% if (blog) { %>
+            <title>
+                <%= blog.title %>
+            </title>
+            <% } else { %>
+                <title>li4Blogs</title>
+                <% } %>
+                    <style>
+                        body {
+                            background-color: #f8f9fa;
+                        }
+
+                        .container {
+                            background-color: #ffffff;
+                            padding: 20px;
+                            border-radius: 8px;
+                            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                        }
+
+                        img.blog-cover {
+                            max-height: 600px;
+                            border-radius: 8px;
+                        }
+
+                        img.creator-profile {
+                            width: 100px;
+                            height: 100px;
+                            object-fit: cover;
+                            border-radius: 100%;
+                        }
+
+                        .comment-form {
+                            margin-top: 20px;
+                        }
+
+                        .comment-form textarea {
+                            width: 100%;
+                            resize: vertical;
+                            margin-bottom: 10px;
+                        }
+
+                        .comment-form button {
+                            background-color: #007bff;
+                            color: #ffffff;
+                            border: none;
+                            padding: 8px 12px;
+                            border-radius: 4px;
+                        }
+
+                        .content-area {
+                            margin-top: 20px;
+                            line-height: 1.6;
+                            color: #333;
+                        }
+
+
+                        .comments-section {
+                            margin-top: 20px;
+                        }
+
+                        .comment {
+                            margin-bottom: 20px;
+                            padding: 15px;
+                            border: 1px solid #ddd;
+                            border-radius: 8px;
+                            display: flex;
+                            align-items: flex-start;
+                        }
+
+                        .commenter-profile {
+                            border-radius: 50%;
+                            margin-right: 15px;
+                        }
+
+                        .comment-info {
+                            display: flex;
+                            flex-direction: column;
+                        }
+
+                        .comment-username {
+                            font-weight: bold;
+                            margin-bottom: 5px;
+                        }
+
+                        .comment-content {
+                            margin-top: 10px;
+                            padding: 10px;
+                            background-color: #f0f0f0;
+                            border-radius: 8px;
+                            word-wrap: break-word;
+                            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+                        }
+
+                    </style>
+</head>
+
+<body>
+    <%- include("./partials/navbar.ejs") %>
+        <% if (blog) { %>
+            <div class="container">
+                <h2 class="text-center mt-3 mb-4">
+                    <%= blog.title %>
+                </h2>
+                <div class="d-flex justify-content-center">
+                    <img src="<%= blog.coverImageUrl %>" class="blog-cover" alt="Blog Cover Image">
+                </div>
+                <p class="mt-4 content-area">
+                    <%= blog.body %>
+                </p>
+                <div class="d-flex align-items-center">
+                    <img src="<%= blog.creator.profileImageUrl %>" class="creator-profile ml-3"
+                        alt="Profile Image">
+                    <h5>
+                        <%= blog.creator.username %>
+                    </h5>
+                </div>
+                <h5 class="m-2">
+                    Created At: <%=blog.createdAt.toLocaleDateString() %>
+                </h5>
+            </div>
+            <% if (locals.user) { %>
+                <div class="comment-form container">
+                    <h3 class="mt-2">Add your comment</h3>
+                    <form action="/blog/comment/<%= blog._id %>" method="POST">
+                        <div class="form-group">
+                            <textarea class="form-control" name="content" rows="3"
+                                placeholder="Write your comment here"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit Comment</button>
+                    </form>
+                </div>
+                </div>
+                <% } else { %>
+                    <div class="container">
+                        <h3>Please login to add your comment</h3>
+                    </div>
+                    <% } %>
+
+                        <div class="container mt-2 comments-section">
+                            <h2>Comments(<%= locals.total %>)</h2>
+                            <% if (locals.comment && locals.comment.length> 0) { %>
+                                <% locals.comment.forEach(comment=> { %>
+                                    <div class="comment">
+                                        <div class="comment-info">
+                                            <img src="<%= comment.commentedBy.profileImageUrl %>"
+                                                alt="" width="100" class="commenter-profile">
+                                            <span class="comment-username">
+                                                <%= comment.commentedBy.username %>
+                                            </span>
+                                        </div>
+                                        <p class="comment-content">
+                                            <%= comment.content %>
+                                        </p>
+                                    </div>
+                                    <% }) %>
+                                        <% } else { %>
+                                            <p>No comments yet.</p>
+                                            <% } %>
+                        </div>
+
+
+                        <% } else { %>
+                            <div class="container mt-3">
+                                <h1 class="text-center mt-5">Blog not found!!! Error 404</h1>
+                            </div>
+                            <% } %>
+</body>
+<%- include("./partials/scripts.ejs") %>
+
+</html>

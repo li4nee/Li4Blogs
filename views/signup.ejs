@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Li4Blogs-Signup</title>
+    <%- include("./partials/head.ejs") %>
+</head>
+<body>
+    <%- include("./partials/navbar.ejs")%>
+    <h1 class="text-center" style="font-family: Roboto;">Signup</h1>
+    <div class="container mt-4" >
+        <form action="/user/signup" method="post" enctype="multipart/form-data" >
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Fullname</label>
+              <input type="name" class="form-control border border-black " id="username" aria-describedby="username" name="username">
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Email address</label>
+              <input type="email" class="form-control border border-black" id="email" aria-describedby="email" name="email">
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label">Password</label>
+              <input type="password" class="form-control border border-black" id="password" name="password">
+            </div>
+            <div class="mb-3">
+              <label for="profileImageUrl" class="form-label">Image Avatar</label>
+              <input type="file" class="form-control border border-black" id="profileImageUrl" name="profileImageUrl">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+    </div>
+    <div class="container mt-1">
+      <% if (locals.error) { %>
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+          <strong>Your email is already registered.</strong>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      <% } %>
+    </div>
+</body>
+<%- include("./partials/scripts.ejs") %>
+</html>
