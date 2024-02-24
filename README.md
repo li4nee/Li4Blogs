@@ -41,15 +41,18 @@ This is a full-stack blogging platform that allows users to create accounts, aut
 ```bash
 npm install
 ```
-3. ## Set Up Environment Variables:
--Create a .env file in the root directory.
--Add the following variables:
---
-PORT= 8000 OR YOUR_PREFERED_PORT
-MONGO_URL= (mongodb://localhost:27017) OR mongo atlas URL
-MONGO_COLLECTION=myblogs or any collection name
-JWT_SECRET=your secret
---
+## Set Up Environment Variables:
+
+1. **Create a `.env` file in the root directory.**
+
+2. **Add the following variables:**
+
+```plaintext
+PORT=8000  # Replace with your preferred port
+MONGO_URL=mongodb://localhost:27017  # Replace with your MongoDB connection URL or use MongoDB Atlas URL
+MONGO_COLLECTION=myblogs  # Replace with your desired MongoDB collection name
+JWT_SECRET=your_secret  # Replace with your JWT secret
+```
 4. ## Run the Application:
 npm start
 
