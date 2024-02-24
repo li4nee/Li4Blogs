@@ -2,13 +2,13 @@
 
 ## Overview
 
-This is a full-stack blogging platform that allows users to create accounts, authenticate, create, edit, and delete blog posts, change their profile information, and add images to both their profiles and blog posts.
+This comprehensive full-stack blogging platform provides users with the capability to seamlessly create, edit, and delete blog posts while ensuring robust authentication measures are in place. 
 
 ## Features
 
 - **User Authentication:** Users can sign up for an account, log in, and log out securely. Passwords are encrypted for security.
 
-- **Profile Management:** Users can view and edit their profile information, including username, email, and profile picture.
+- **Profile Management:** Users can view and edit their profile information, including username, email, and their blogs.
 
 - **Blog Management:** Users can create, edit, and delete their blog posts. Each blog post can include a title, body text, and images.
 
