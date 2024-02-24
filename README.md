@@ -54,7 +54,7 @@ MONGO_COLLECTION=myblogs  # Replace with your desired MongoDB collection name
 JWT_SECRET=your_secret  # Replace with your JWT secret
 ```
 4. ## Run the Application:
-npm start
+npm run dev
 
 5. ## Access the Application:
 Open your web browser and go to http://localhost: 8000 (OR YOUR_GIVEN_PORT)/  NOTE:REMOVE THE () PART
