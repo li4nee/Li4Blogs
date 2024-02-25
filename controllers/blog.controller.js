@@ -55,8 +55,35 @@ const deleteBlog = async (req, res) => {
   }
 };
 
-const showBlogToEdit= async(req,res)=>{
-return res.render("editblog",{user:req.user})
-}
+const handleEditBlog = async (req, res) => {
+  const { title, body } = req.body;
+  const newdata = {
+    title,
+    body
+  };
+  try {
+    const updatedBlog = await Blog.findOneAndUpdate({_id:req.params.blogId}, newdata, { new: true });
 
-export { addBlog, handleComment, handleBlogs, deleteBlog ,showBlogToEdit};
+    if (updatedBlog) {
+      return res.redirect(`/user/${req.user._id}`);
+    } 
+  } catch (error) {
+    console.error('Error updating blog:', error);
+    return res.status(500).send("Internal Server Error");
+  }
+};
+
+const changeCoverImage= async(req,res)=>{
+  try {
+    const updatedBlog = await Blog.findOneAndUpdate({_id:req.params.blogId},{coverImageUrl: `/uploads/${req.file.filename}`}, { new: true });
+
+    if (updatedBlog) {
+      return res.redirect(`/blog/edit/${req.params.blogId}`);
+    } 
+  } catch (error) {
+    console.error('Error updating blog:', error);
+    return res.status(500).send("Internal Server Error");
+  }
+};
+
+export { addBlog, handleComment, handleBlogs, deleteBlog ,handleEditBlog,changeCoverImage};

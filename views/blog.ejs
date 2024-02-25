@@ -25,8 +25,12 @@
                         }
 
                         img.blog-cover {
-                            max-height: 600px;
-                            border-radius: 8px;
+                          
+                                max-height: 600px;
+                                border-radius: 8px;
+                                width: 100%;
+                                height: auto;
+                            
                         }
 
                         img.creator-profile {
@@ -34,6 +38,8 @@
                             height: 100px;
                             object-fit: cover;
                             border-radius: 100%;
+                            max-width: 100%;
+                            height: auto;
                         }
 
                         .comment-form {
@@ -97,7 +103,6 @@
                             word-wrap: break-word;
                             box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
                         }
-
                     </style>
 </head>
 
@@ -109,13 +114,13 @@
                     <%= blog.title %>
                 </h2>
                 <div class="d-flex justify-content-center">
-                    <img src="<%= blog.coverImageUrl %>" class="blog-cover" alt="Blog Cover Image">
+                    <img src="<%= blog.coverImageUrl %>" class="blog-cover" alt="Blog Cover Image img-fluid">
                 </div>
                 <p class="mt-4 content-area">
                     <%= blog.body %>
                 </p>
                 <div class="d-flex align-items-center">
-                    <img src="<%= blog.creator.profileImageUrl %>" class="creator-profile ml-3"
+                    <img src="<%= blog.creator.profileImageUrl %>" class="creator-profile ml-3 img-fluid"
                         alt="Profile Image">
                     <h5>
                         <%= blog.creator.username %>

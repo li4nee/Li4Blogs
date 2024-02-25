@@ -1,38 +1,150 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=\, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <%- include("./partials/head.ejs") %>
-    <title></title>
+        <title>Edit Your Blog</title>
+        <style>
+            body {
+                background-color: #f8f9fa;
+            }
+
+            .container {
+                margin-top: 50px;
+            }
+
+            h1 {
+                text-align: center;
+                margin-bottom: 30px;
+            }
+
+            form {
+                background-color: #fff;
+                padding: 20px;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+
+            img.img-thumbnail {
+                max-width: 100%;
+                height: auto;
+                margin-bottom: 20px;
+            }
+
+            .mb-3 {
+                margin-bottom: 20px;
+            }
+
+            button.btn-primary {
+                background-color: #007bff;
+                border-color: #007bff;
+            }
+
+            button.btn-warning {
+                background-color: #ffc107;
+                border-color: #ffc107;
+            }
+
+
+            #confirmationModal {
+                display: none;
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                padding: 20px;
+                background-color: #fff;
+                border: 1px solid #ccc;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                z-index: 2;
+            }
+
+            #overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.3);
+                z-index: 1;
+            }
+        </style>
 </head>
+
 <body>
     <%- include("./partials/navbar.ejs") %>
-    <div class="container mt-3">
-        <div class="row">
-            <div class="col-md-8 offset-md-2">
-                <h1 class="text-center">Edit Your Blog</h1>
-                
-                <form action="/blog/add" method="post" enctype="multipart/form-data">
-                    <div class="mb-3">
-                        <label for="coverImageUrl" class="form-label">Blog Cover Image </label>
-                        <input type="file" class="form-control" id="coverImageUrl" name="coverImageUrl">
-                    </div>
-                    <div class="mb-3">
-                        <label for="title" class="form-label">Blog Title</label>
-                        <input type="text" class="form-control" id="title" name="title" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="body" class="form-label">Blog Body</label>
-                        <textarea class="form-control" id="body" name="body" rows="7" required></textarea>
-                    </div>
-                    
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
+        <div class="container mt-3">
+            <div class="row">
+                <div class="col-md-8 offset-md-2">
+                    <h1>Edit Your Blog</h1>
+
+                    <form action="/blog/edit/<%= blog._id %>" method="post">
+                        <div class="mb-3 coverImageUrl">
+                            <label for="coverImageUrl" class="form-label">Blog Cover Image</label>
+                            <img src="<%= blog.coverImageUrl %>" alt="Cover Image Url"
+                                class="img-thumbnail" />
+                        </div>
+                        <p class="btn btn-primary mb-2" id="changeCover">Change Cover Image</p>
+                       
+
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Blog Title</label>
+                            <input type="text" class="form-control" id="title" name="title"
+                                value="<%= blog.title %>" required />
+                        </div>
+                        <div class="mb-3">
+                            <label for="body" class="form-label">Blog Body</label>
+                            <textarea class="form-control" id="body" name="body" rows="10" required><%= blog.body %></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <a href="/user/<%= blog.creator %>" class="btn btn-warning">Cancel</a>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
-    <%- include("./partials/scripts.ejs") %>
+        <div>
+            <div id="confirmationModal">
+                <form action="/blog/coverimage/<%= blog._id %>" method="post" enctype="multipart/form-data">
+                 <div class="mb-3 coverInput">
+                            <label for="coverImageUrl" class="form-label">Change Cover Image </label>
+                            <input type="file" class="form-control" id="coverImageUrl" name="coverImageUrl">
+                        </div>
+                <button id="confirmSubmit" class="btn btn-warning">Submit</button>
+                <button id="cancelDelete" class="btn btn-success">Cancel</button>
+                </form>
+            </div>
+            <div id="overlay"></div>
+        </div>
+        <%- include("./partials/scripts.ejs") %>
+        <script>
+           
+            const changeCoverBtn = document.getElementById("changeCover");
+            const confirmationModal = document.getElementById("confirmationModal");
+            const overlay = document.getElementById("overlay");
+            const coverInput = document.querySelector(".coverInput");
 
+            changeCoverBtn.addEventListener("click", function () {
+                confirmationModal.style.display = "block";
+                overlay.style.display = "block";
+            });
+
+            document.getElementById("confirmSubmit").addEventListener("click", function () {
+                confirmationModal.style.display = "none";
+                overlay.style.display = "none";    
+            });
+
+            document.getElementById("cancelDelete").addEventListener("click", function () {
+
+                confirmationModal.style.display = "none";
+                overlay.style.display = "none";
+            });
+       
+    </script>
+        </script>
 </body>
+
 </html>

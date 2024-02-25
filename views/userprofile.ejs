@@ -43,7 +43,7 @@
                         background-color: #fff;
                         border: 1px solid #ccc;
                         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                        z-index: 1000;
+                        z-index: 2;
                     }
 
                     #overlay {
@@ -54,7 +54,7 @@
                         width: 100%;
                         height: 100%;
                         background-color: rgba(0, 0, 0, 0.3);
-                        z-index: 999;
+                        z-index: 1;
                     }
                 </style>
                 <%- include("./partials/head.ejs") %>
@@ -115,9 +115,9 @@
                                     <% if (bloguser._id==user._id) { %>
                                      
                                         <div class="d-flex">
-                                            <button type="button" class="btn btn-warning me-2"
-                                            onclick="BlogPost('<%= blog._id %>','<%= user._id %>','update')">
-                                                Edit</button>
+                                            <a class="btn btn-warning me-2" href="/blog/edit/<%= blog._id %>">
+                                                Edit
+                                            </a>                                            
                                             <button type="button" class="btn btn-danger"
                                                 id="deleteButton"
                                                 onclick="BlogPost('<%= blog._id %>','<%= user._id %>','delete')">Delete</button>
@@ -131,7 +131,7 @@
                 </div>
                 <div>
                     <div id="confirmationModal">
-                        <p>Are you sure?</p>
+                        <p>Are you sure you want to delete?</p>
                         <button id="confirmDelete" class="btn btn-warning">Yes</button>
                         <button id="cancelDelete" class="btn btn-success">No</button>
                     </div>
@@ -156,20 +156,20 @@
                         document.getElementById('overlay').style.display = 'block';
 
                         document.getElementById('confirmDelete').addEventListener('click', async function () {
-                            if(purpose=="delete")
-                            {
-                            const response = await fetch(`/blog/${purpose}/` + blogId, {   
-                                method: (purpose=="delete")?'DELETE':'GET',
-                                
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                },
-                            });
+                            if(purpose=="delete"){
+
+                                const response = await fetch(`/blog/delete/` + blogId, {   
+                                    method:"DELETE",
+                                    
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
+                                });
                             }
+                            
                             document.getElementById('confirmationModal').style.display = 'none';
                             document.getElementById('overlay').style.display = 'none';
-                            (purpose=="delete")?window.location.href = `/user/${userId}`:
-                            window.location.href = `/user/edit/${userId}/${blogId}`;
+                            (purpose=="delete")?window.location.href = `/user/${userId}`:"";
                         });
 
                         document.getElementById('cancelDelete').addEventListener('click', function () {

@@ -1,6 +1,13 @@
 import { Router } from "express";
-import { addBlog, deleteBlog, handleBlogs, handleComment,showBlogToEdit } from "../controllers/blog.controller.js";
-
+import {
+  addBlog,
+  changeCoverImage,
+  deleteBlog,
+  handleBlogs,
+  handleComment,
+  handleEditBlog,
+} from "../controllers/blog.controller.js";
+import Blog from "../models/blog.models.js";
 import upload from "../utils/multer.js";
 
 const router = Router();
@@ -13,10 +20,21 @@ router.post("/add", upload.single("coverImageUrl"), addBlog);
 
 router.get("/:id", handleBlogs);
 
-router.post("/comment/:blogID",handleComment)
+router.post("/comment/:blogID", handleComment);
 
-router.delete("/delete/:blogID",deleteBlog)
+router.delete("/delete/:blogID", deleteBlog);
 
-router.get("/edit/:userId/:blogId",showBlogToEdit)
+router.get("/edit/:blogId", async (req, res) => {
+  const blog = await Blog.findById(req.params.blogId);
+  return res.render("editblog", { user: req.user, blog });
+});
+
+router.post("/edit/:blogId", handleEditBlog);
+
+router.post(
+  "/coverImage/:blogId",
+  upload.single("coverImageUrl"),
+  changeCoverImage
+);
 
 export default router;
