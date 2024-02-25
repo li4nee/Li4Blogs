@@ -27,7 +27,7 @@ This comprehensive full-stack blogging platform provides users with the capabili
 - [Express.js](https://expressjs.com/) as the web application framework
 - [MongoDB](https://www.mongodb.com/) for database storage
 - [Mongoose](https://mongoosejs.com/) as the MongoDB object modeling tool
-- [Passport.js](http://www.passportjs.org/) for user authentication
+- JWT for user authentication
 - [Multer](https://www.npmjs.com/package/multer) for handling file uploads
 
 ## Setup
