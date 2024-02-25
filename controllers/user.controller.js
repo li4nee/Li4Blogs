@@ -37,4 +37,71 @@ const displayUser = async (req, res) => {
   const bloguser= await User.findById(req.params.id);
   return res.render("userprofile", {user:req.user, bloguser, blogs });
 };
-export { signupUser, loginUser, logoutUser, displayUser };
+
+const changeProfileImage= async(req,res)=>{
+  try {
+    const updateduser = await User.findOneAndUpdate({_id:req.user._id},{profileImageUrl: `/uploads/${req.file.filename}`}, { new: true });
+
+    if (updateduser) {
+
+      return res.render(`edituser`,{user:updateduser});
+    } 
+  } catch (error) {
+    console.error('Error updating blog:', error);
+    return res.status(500).send("Internal Server Error");
+  }
+}
+
+const handleEdit = async (req, res) => {
+  const { username, email } = req.body;
+  if (email !== req.user.email) {
+    try {
+
+      const existingUser = await User.findOne({ email });
+
+      if (existingUser) {
+
+        return res.render(`edituser`,{error:"User already exists"});
+      }
+
+      const newdata = {
+        username,
+        email
+      };
+
+      const updatedUser = await User.findOneAndUpdate(
+        { _id: req.user._id },
+        newdata,
+        { new: true }
+      );
+
+      if (updatedUser) {
+        return res.redirect(`/user/${req.user._id}`);
+      }
+    } catch (error) {
+      console.error('Error updating user:', error);
+      return res.status(500).send('Internal Server Error');
+    }
+  } else {
+    const newdata = {
+      username
+    };
+
+    try {
+      const updatedUser = await User.findOneAndUpdate(
+        { _id: req.user._id },
+        newdata,
+        { new: true }
+      );
+
+      if (updatedUser) {
+        return res.redirect(`/user/${req.user._id}`);
+      }
+    } catch (error) {
+      console.error('Error updating user:', error);
+      return res.status(500).send('Internal Server Error');
+    }
+  }
+};
+
+export { signupUser, loginUser, logoutUser, displayUser,changeProfileImage ,handleEdit};

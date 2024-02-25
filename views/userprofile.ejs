@@ -63,7 +63,13 @@
 <body>
     <%- include("./partials/navbar.ejs") %>
         <div class="container mt-5">
-            <h2 class="mb-4">User Profile</h2>
+            
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2>User Profile</h2>
+                <% if (bloguser._id==user._id) { %>
+                    <a class="btn btn-warning" href="/user/2/editDetails">Edit User Details</a>
+                <% } %>
+            </div>
 
             <div class="card mb-4">
                 <div class="card-body">
@@ -80,13 +86,13 @@
                                 <p class="card-text"><strong>Email:</strong>
                                     <%= user.email %>
                                 </p>
-                            <% } %>
+                                <% } %>
 
-                            <p class="card-text"><strong>Created At:</strong>
-                                <% const createdAtDate=new Date(bloguser.createdAt) %>
-                                    <%= createdAtDate.toLocaleDateString() %>
+                                    <p class="card-text"><strong>Created At:</strong>
+                                        <% const createdAtDate=new Date(bloguser.createdAt) %>
+                                            <%= createdAtDate.toLocaleDateString() %>
 
-                            </p>
+                                    </p>
                         </div>
                     </div>
                 </div>
@@ -113,16 +119,17 @@
                                         </h5> Created: <%= blog.createdAt.toLocaleDateString() %>
                                     </p>
                                     <% if (bloguser._id==user._id) { %>
-                                     
+
                                         <div class="d-flex">
-                                            <a class="btn btn-warning me-2" href="/blog/edit/<%= blog._id %>">
+                                            <a class="btn btn-warning me-2"
+                                                href="/blog/edit/<%= blog._id %>">
                                                 Edit
-                                            </a>                                            
+                                            </a>
                                             <button type="button" class="btn btn-danger"
                                                 id="deleteButton"
                                                 onclick="BlogPost('<%= blog._id %>','<%= user._id %>','delete')">Delete</button>
                                         </div>
-                                    <% } %>
+                                        <% } %>
 
                                 </div>
                             </div>
@@ -143,33 +150,26 @@
                     crossorigin="anonymous">
                     </script>
                 <script>
-
-
-
-
-
-
-
-                    async function BlogPost(blogId,userId,purpose) {
+                    async function BlogPost(blogId, userId, purpose) {
 
                         document.getElementById('confirmationModal').style.display = 'block';
                         document.getElementById('overlay').style.display = 'block';
 
                         document.getElementById('confirmDelete').addEventListener('click', async function () {
-                            if(purpose=="delete"){
+                            if (purpose == "delete") {
 
-                                const response = await fetch(`/blog/delete/` + blogId, {   
-                                    method:"DELETE",
-                                    
+                                const response = await fetch(`/blog/delete/` + blogId, {
+                                    method: "DELETE",
+
                                     headers: {
                                         'Content-Type': 'application/json',
                                     },
                                 });
                             }
-                            
+
                             document.getElementById('confirmationModal').style.display = 'none';
                             document.getElementById('overlay').style.display = 'none';
-                            (purpose=="delete")?window.location.href = `/user/${userId}`:"";
+                            (purpose == "delete") ? window.location.href = `/user/${userId}` : "";
                         });
 
                         document.getElementById('cancelDelete').addEventListener('click', function () {

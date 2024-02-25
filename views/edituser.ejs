@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%- include("./partials/head.ejs") %>
+        <style>
+            #confirmationModal {
+                display: none;
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                padding: 20px;
+                background-color: #fff;
+                border: 1px solid #ccc;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                z-index: 2;
+            }
+
+            #overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.3);
+                z-index: 1;
+            }
+        </style>
+        <title>Document</title>
+</head>
+
+<body>
+    <%- include("./partials/navbar.ejs") %>
+        <h1 class="text-center" style="font-family: Roboto;">Edit User Profile</h1>
+        <div class="container mt-4">
+            <form action="/user/2/editDetails" method="post">
+                <h5 for="profileImage">Profile Image</h5>
+                <div class="col-md-4">
+                    <img src="<%= user.profileImageUrl %>" alt="Profile Image"
+                        class="img-thumbnail">
+                </div>
+                <p class="btn btn-primary mb-3" id="changeCover">Change Profile Image</p>
+                <div class="mb-4">
+                    <h5 for="exampleInputEmail1" class="form-label">Username</h5>
+                    <input type="name" class="form-control border border-black " id="username"
+                        aria-describedby="username" name="username" value="<%= user.username %>">
+                </div>
+                <div class="mb-4">
+                    <h5 for="exampleInputEmail1" class="form-label">Email address</h5>
+                    <input type="email" class="form-control border border-black" id="email"
+                        aria-describedby="email" name="email" value="<%= user.email %>">
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <a href="/user/<%= user._id %>" class="btn btn-warning"> Cancel</a>
+            </form>
+        </div>
+
+        <div id="confirmationModal">
+            <form action="/user/changeProfileImage" method="post" enctype="multipart/form-data">
+                <div class="mb-3 coverInput">
+                    <label for="profileImageUrl" class="form-label">Change Profile Image </label>
+                    <input type="file" class="form-control" id="profileImageUrl"
+                        name="profileImageUrl">
+                </div>
+                <button id="confirmSubmit" class="btn btn-warning">Submit</button>
+                <a id="cancelDelete" class="btn btn-success">Cancel</a>
+            </form>
+        </div>
+        <div id="overlay"></div>
+        </div>
+
+        <div class="container mt-1">
+            <% if (locals.error) { %>
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <strong>Your email is already registered.</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"
+                        aria-label="Close"></button>
+                </div>
+                <% } %>
+        </div>
+</body>
+<%- include("./partials/scripts.ejs") %>
+    <script>
+
+        const changeCoverBtn = document.getElementById("changeCover");
+        const confirmationModal = document.getElementById("confirmationModal");
+        const overlay = document.getElementById("overlay");
+
+        changeCoverBtn.addEventListener("click", function () {
+            confirmationModal.style.display = "block";
+            overlay.style.display = "block";
+        });
+
+        document.getElementById("confirmSubmit").addEventListener("click", function () {
+            confirmationModal.style.display = "none";
+            overlay.style.display = "none";
+        });
+
+        document.getElementById("cancelDelete").addEventListener("click", function () {
+
+            confirmationModal.style.display = "none";
+            overlay.style.display = "none";
+        });
+
+    </script>
+    </body>
+
+</html>
