@@ -16,10 +16,13 @@
             object-fit: cover;
         }
     </style>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto&display=swap">
 </head>
 <body>
     <%- include("./partials/navbar.ejs") %>
     <div class="container mt-3">
+        <h2 style="color: #033556; font-family:'Roboto', sans-serif ;">LATEST POSTS</h2>
+
         <div class="row">
             <% blogs.forEach(blog => { %>
                 <div class="col-md-4 mb-3">

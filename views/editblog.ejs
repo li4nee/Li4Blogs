@@ -8,6 +8,30 @@
 </head>
 <body>
     <%- include("./partials/navbar.ejs") %>
+    <div class="container mt-3">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <h1 class="text-center">Edit Your Blog</h1>
+                
+                <form action="/blog/add" method="post" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="coverImageUrl" class="form-label">Blog Cover Image </label>
+                        <input type="file" class="form-control" id="coverImageUrl" name="coverImageUrl">
+                    </div>
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Blog Title</label>
+                        <input type="text" class="form-control" id="title" name="title" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="body" class="form-label">Blog Body</label>
+                        <textarea class="form-control" id="body" name="body" rows="7" required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
     <%- include("./partials/scripts.ejs") %>
 
 </body>

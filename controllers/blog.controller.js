@@ -51,7 +51,6 @@ const deleteBlog = async (req, res) => {
 
     return res.status(404).send("error!!");
   } catch (err) {
-    console.error(err);
     return res.status(500).send("error!!");
   }
 };
