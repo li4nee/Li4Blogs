@@ -8,7 +8,7 @@ This comprehensive full-stack blogging platform provides users with the capabili
 
 - **User Authentication:** Users can sign up for an account, log in, and log out securely. Passwords are encrypted for security.
 
-- **Profile Management:** Users can view and edit their profile information, including username, email, and their blogs.
+- **Profile Management:** Users can view and edit their profile information, including username, email,profile image, and their blogs.
 
 - **Blog Management:** Users can create, edit, and delete their blog posts. Each blog post can include a title, body text, and images.
 
@@ -27,7 +27,7 @@ This comprehensive full-stack blogging platform provides users with the capabili
 - [Express.js](https://expressjs.com/) as the web application framework
 - [MongoDB](https://www.mongodb.com/) for database storage
 - [Mongoose](https://mongoosejs.com/) as the MongoDB object modeling tool
-- [Passport.js](http://www.passportjs.org/) for user authentication
+- JWT for user authentication
 - [Multer](https://www.npmjs.com/package/multer) for handling file uploads
 
 ## Setup
