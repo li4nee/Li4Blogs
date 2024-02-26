@@ -37,7 +37,10 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
-userSchema.statics.checkLoginAndGenerateToken= async function (email, password) {
+userSchema.statics.checkLoginAndGenerateToken = async function (
+  email,
+  password
+) {
   const user = await this.findOne({ email }).select("+password");
   if (!user) throw generateErrorResponse(400, "User not found");
   const emailPasswordCorrect = await bcrypt.compare(password, user.password);
@@ -45,16 +48,14 @@ userSchema.statics.checkLoginAndGenerateToken= async function (email, password) 
   //  user._doc.password = undefined;
 
   // if (emailPasswordCorrect) return { user };
-  if(emailPasswordCorrect)
-  {
+  if (emailPasswordCorrect) {
     const token = await generateToken(user);
     return token;
-  }
-  else {
+  } else {
     throw generateErrorResponse(400, "Password is incorrect.");
   }
-
 };
+
 
 const User = mongoose.model("User", userSchema);
 export { User };

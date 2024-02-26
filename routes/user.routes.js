@@ -26,15 +26,24 @@ router.post("/signup", upload.single("profileImageUrl"), signupUser);
 router.post("/login", loginUser);
 router.get("/2/logout", logoutUser);
 
-router.get("/2/editDetails",  checkForLogin(),async (req, res) => {
+router.get("/2/editDetails", checkForLogin(), async (req, res) => {
   const user = await User.findById(req.user._id);
-  return res.render("edituser", {user});
+  return res.render("edituser", { user });
 });
 
-router.post("/2/editDetails",checkForLogin(),handleEdit);
+router.post("/2/editDetails", checkForLogin(), handleEdit);
 
-router.post("/changeProfileImage", checkForLogin(),upload.single("profileImageUrl"),changeProfileImage)
+router.post(
+  "/changeProfileImage",
+  checkForLogin(),
+  upload.single("profileImageUrl"),
+  changeProfileImage
+);
 
-router.post("changePassword",changePassword)
+router.get("/2/changePassword",async(req,res)=>{
+  const user = await User.findById(req.user._id);
+  return res.render("changePassword", { user });
+})
+router.post("/2/changePassword", changePassword);
 
 export default router;

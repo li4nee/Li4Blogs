@@ -1,6 +1,7 @@
 import { User } from "../models/user.models.js";
 import Blog from "../models/blog.models.js";
 import { generateToken, validateToken } from "../utils/auth.utils.js";
+import bcrypt from "bcryptjs";
 const signupUser = async (req, res) => {
   try {
     const { email, password, username } = req.body;
@@ -8,11 +9,13 @@ const signupUser = async (req, res) => {
       username,
       password,
       email,
-      profileImageUrl: `/uploads/${req.file.filename}`,
+      profileImageUrl: req.file ? `/uploads/${req.file.filename}` : "/images/default.jpg",
     });
+    
     return res.redirect("/user/login");
   } catch (error) {
-    return res.render("signup", { error: "Email already exists" });
+    console.log(error)
+    return res.render("signup", { error: error});
   }
 };
 
@@ -106,10 +109,27 @@ const handleEdit = async (req, res) => {
     return res.status(500).send('Internal Server Error');
   }
 };
-
-
 const changePassword=async(req,res)=>{
-
+  const {email,password,newpassword}= req.body;
+  if (email !== req.user.email) {
+    return res.render("changePassword", { user: req.user, error: "Incorrect Email Address" });
+  }
+  
+  const user = await User.findOne({email}).select("+password");
+  const emailPasswordCorrect = await bcrypt.compare(password, user.password);
+  if(emailPasswordCorrect)
+  {
+    const updatedUser = await User.findOneAndUpdate(
+      { _id: user._id },
+      { password: await bcrypt.hash(newpassword, 10) },
+      { new: true }
+    );
+    
+    return res.redirect(`/user/${req.user._id}`);
+  }
+  else{
+    return res.render("changePassword",{user,error:"Enter correct password"});
+  }
 }
 
 export { signupUser, loginUser, logoutUser, displayUser,changeProfileImage ,handleEdit,changePassword};
