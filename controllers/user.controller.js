@@ -1,5 +1,6 @@
 import { User } from "../models/user.models.js";
 import Blog from "../models/blog.models.js";
+import { generateToken, validateToken } from "../utils/auth.utils.js";
 const signupUser = async (req, res) => {
   try {
     const { email, password, username } = req.body;
@@ -51,17 +52,15 @@ const changeProfileImage= async(req,res)=>{
     return res.status(500).send("Internal Server Error");
   }
 }
-
 const handleEdit = async (req, res) => {
   const { username, email } = req.body;
-  if (email !== req.user.email) {
-    try {
 
+  try {
+    if (email !== req.user.email) {
       const existingUser = await User.findOne({ email });
 
       if (existingUser) {
-
-        return res.render(`edituser`,{error:"User already exists"});
+        return res.render('edituser', { error: 'User already exists' });
       }
 
       const newdata = {
@@ -76,18 +75,18 @@ const handleEdit = async (req, res) => {
       );
 
       if (updatedUser) {
+        const newToken = await generateToken(updatedUser);
+        res.cookie('token', newToken);
+        const payloadUser = validateToken(newToken);
+        req.user = payloadUser;
+
         return res.redirect(`/user/${req.user._id}`);
       }
-    } catch (error) {
-      console.error('Error updating user:', error);
-      return res.status(500).send('Internal Server Error');
-    }
-  } else {
-    const newdata = {
-      username
-    };
+    } else {
+      const newdata = {
+        username
+      };
 
-    try {
       const updatedUser = await User.findOneAndUpdate(
         { _id: req.user._id },
         newdata,
@@ -95,13 +94,22 @@ const handleEdit = async (req, res) => {
       );
 
       if (updatedUser) {
+        const newToken = await generateToken(updatedUser);
+        res.cookie('token', newToken);
+        const payloadUser = validateToken(newToken);
+        req.user = payloadUser;
         return res.redirect(`/user/${req.user._id}`);
       }
-    } catch (error) {
-      console.error('Error updating user:', error);
-      return res.status(500).send('Internal Server Error');
     }
+  } catch (error) {
+    console.error('Error updating user:', error);
+    return res.status(500).send('Internal Server Error');
   }
 };
 
-export { signupUser, loginUser, logoutUser, displayUser,changeProfileImage ,handleEdit};
+
+const changePassword=async(req,res)=>{
+
+}
+
+export { signupUser, loginUser, logoutUser, displayUser,changeProfileImage ,handleEdit,changePassword};

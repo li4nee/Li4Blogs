@@ -6,6 +6,7 @@ import {
   displayUser,
   changeProfileImage,
   handleEdit,
+  changePassword,
 } from "../controllers/user.controller.js";
 import upload from "../utils/multer.js";
 import Blog from "../models/blog.models.js";
@@ -33,5 +34,7 @@ router.get("/2/editDetails",  checkForLogin(),async (req, res) => {
 router.post("/2/editDetails",checkForLogin(),handleEdit);
 
 router.post("/changeProfileImage", checkForLogin(),upload.single("profileImageUrl"),changeProfileImage)
+
+router.post("changePassword",changePassword)
 
 export default router;
