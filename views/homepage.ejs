@@ -15,6 +15,11 @@
             height: 200px;
             object-fit: cover;
         }
+
+        .smalltext
+        {
+            font-size: 14px;
+        }
     </style>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto&display=swap">
 </head>
@@ -37,7 +42,11 @@
                             <p class="card-text text-truncate" title="<%= blog.body %>">
                                 <%= blog.body %>
                             </p>
-                            <p class="card-text"> <h5>Author: <%= blog.creator.username %></h5> Created: <%= blog.createdAt.toLocaleDateString() %></p>
+                            <h5 class="text-truncate">Author: <%= blog.creator.username %></h5>
+                            <div class="d-flex justify-content-between align-items-center">
+                            <p class="smalltext">Created: <%= blog.createdAt.toLocaleDateString() %></p>
+                            <p class="smalltext">Updated: <%= blog.updatedAt.toLocaleDateString() %></p>
+                            </div>
                             
                         </div>
                     </div>
