@@ -7,13 +7,14 @@ import cookieParser from "cookie-parser";
 import { checkForAuthenticationCookie } from "./middleware/authentication.js";
 import blogRouter from "./routes/blog.router.js";
 import Blog from "./models/blog.models.js";
-
+import { rateLimitMiddleware } from "./middleware/ratelimiter.js";
 dotenv.config();
 
 
 const app = express();
 const port = process.env.PORT;
 
+app.use(rateLimitMiddleware)
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.resolve("./public")))
