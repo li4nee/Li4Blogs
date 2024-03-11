@@ -32,7 +32,7 @@ app.get("/", async (req, res) => {
 
 app.use("/user", userRouter);
 await mongoose
-  .connect(`${process.env.MONGO_URL}/${process.env.MONGO_COLLECTION}`)
+  .connect(`${process.env.MONGO_URL}`)
   .then(() => {
     console.log("DB connected");
   })
